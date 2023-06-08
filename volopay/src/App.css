@@ -65,7 +65,7 @@
 .card{
   padding:10px;
   margin-top: 3%;
-  background-color: #efecec;
+  background: linear-gradient(145deg, #c7c7c7, #ececec);
   width:300px;
   display: flex;
   flex-direction: column;
@@ -349,7 +349,7 @@
 .card{
   padding:10px;
   margin-top: 3%;
-  background-color: #efecec;
+  background: linear-gradient(145deg, #c7c7c7, #ececec);
   width:200px;
   display: flex;
   flex-direction: column;
