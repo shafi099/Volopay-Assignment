@@ -18,6 +18,8 @@ const Blocked = () => {
         Blocked
       </button>
     </div>
+    <div className='msg'>Your blocked cards displayed here</div>
+
     <div className='cardportion'>
       <div className='blockedCard'>
         <span className='blockStatus'>
