@@ -42,9 +42,9 @@ const Your = ({ cards }) => {
                 <div className="card-type">{card.card_type}</div>
                 <div className="Name">{card.name}</div>
                 <div className="expiry">
-                  {card.card_type === 'burner' && <span>Expiry: {card.expiry}</span>}
-                  {card.card_type === 'subscription' && <span>Limit: {card.limit}</span>}
-                  <span>Status: {card.status}</span>
+                  {card.card_type === 'burner' && <span>Expiry: <span className='expire'>{card.expiry}</span></span>}
+                  {card.card_type === 'subscription' && <span>Limit: <span className='expire'>{card.limit}</span></span>}
+                  <span>Status: <span className='active'>{card.status}</span></span>
                 </div>
               </div>
             );

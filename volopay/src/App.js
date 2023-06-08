@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route,useNavigate } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import All from './All';
 import Your from './Your';
 import Blocked from './Blocked'

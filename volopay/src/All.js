@@ -5,10 +5,11 @@ const All = ({ cards }) => {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
   const [cardTypeFilter, setCardTypeFilter] = useState('All');
+  const [limitFilter, setLimitFilter] = useState('None');
   const Navigate = useNavigate();
 
   const handleSearch = (event) => {
-    setCardTypeFilter('All')
+    setCardTypeFilter('All');
     setSearchQuery(event.target.value);
   };
 
@@ -16,13 +17,29 @@ const All = ({ cards }) => {
     setCardTypeFilter(event.target.value);
   };
 
+  const handleLimitFilter = (event) => {
+    setLimitFilter(event.target.value);
+  };
+
   const filteredCards = cards.filter((card) =>
     card.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const filterByLimit = (card) => {
+    if (limitFilter === 'None') {
+      return true;
+    } else if (limitFilter === '50') {
+      return card.limit > 50;
+    } else if (limitFilter === '49') {
+      return card.limit <= 50;
+    }
+  };
+
   return (
     <>
-      <div className='Head'><h2>Select Tab</h2></div>
+      <div className='Head'>
+        <h2>Select Tab</h2>
+      </div>
 
       <div className="Select">
         <span className="selected">All</span>
@@ -33,6 +50,7 @@ const All = ({ cards }) => {
           Blocked
         </button>
       </div>
+
       <div className='SearchOptions'>
         <input
           type="text"
@@ -46,17 +64,36 @@ const All = ({ cards }) => {
           <option value="subscription">Subscription Cards</option>
         </select>
       </div>
+
+      {cardTypeFilter === 'subscription' && (
+        <div className='SearchOptions'>
+          <label htmlFor='limit'>Sort by Limit</label>
+          <select name='limit' value={limitFilter} onChange={handleLimitFilter}>
+            <option value="None">None</option>
+            <option value="50">Limit above 50</option>
+            <option value="49">Limit below 50</option>
+          </select>
+        </div>
+      )}
+
       <div className="cardportion">
         {filteredCards.map((card) => {
           if (cardTypeFilter === 'All' || card.card_type === cardTypeFilter) {
+            if (card.card_type === 'subscription' && !filterByLimit(card)) {
+              return null;
+            }
             return (
               <div key={card.name} className="card">
                 <div className="card-type">{card.card_type}</div>
                 <div className="Name">{card.name}</div>
                 <div className="expiry">
-                  {card.card_type === 'burner' && <span>Expiry: {card.expiry}</span>}
-                  {card.card_type === 'subscription' && <span>Limit: {card.limit}</span>}
-                  <span>Status: {card.status}</span>
+                  {card.card_type === 'burner' && (
+                    <span>Expiry: <span className='expire'>{card.expiry}</span></span>
+                  )}
+                  {card.card_type === 'subscription' && (
+                    <span>Limit: <span className='expire'>{card.limit}</span></span>
+                  )}
+                  <span>Status: <span className='active'>{card.status}</span></span>
                 </div>
               </div>
             );
@@ -64,8 +101,6 @@ const All = ({ cards }) => {
           return null;
         })}
       </div>
-
-
     </>
   );
 };
